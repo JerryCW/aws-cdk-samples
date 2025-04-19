@@ -1,0 +1,31 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.12
+    commands:
+      - npm install -g aws-cdk
+      - pip install -r requirements.txt
+  
+  pre_build:
+    commands:
+      - echo "Starting pre-build phase"
+      - cdk --version
+  
+  build:
+    commands:
+      - echo "Starting build phase"
+      - cdk synth
+      - cdk deploy --require-approval never
+  
+  post_build:
+    commands:
+      - echo "Build completed successfully!"
+
+artifacts:
+  files:
+    - cdk.out/**/*
+    - buildspec.yml
+    - README.md
+  discard-paths: no
